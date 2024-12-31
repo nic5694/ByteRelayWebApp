@@ -1,0 +1,13 @@
+#main-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+#header {
+    max-height:3em;
+    height: 3em;
+}
+#main {
+    height:100%;
+    overflow-y: hidden;
+}

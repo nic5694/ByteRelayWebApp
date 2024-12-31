@@ -1,0 +1,15 @@
+#home {
+  width: 100%;
+
+  #chat-room-list {
+    width: 20%;
+    overflow-y: auto;
+  }
+
+  #chat-room {
+    width: 80%;
+    height:100%;
+    border-left: 2px solid #000;
+    overflow-y: auto;
+  }
+}
