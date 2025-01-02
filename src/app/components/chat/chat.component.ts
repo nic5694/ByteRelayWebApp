@@ -25,7 +25,7 @@ export class ChatComponent {
   generateMockMessages(): Array<Message> {
     const mockMessages: Message[] = [];
     
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 10; i++) {
       mockMessages.push({
         contents: `This is mock message number ${i + 1 + (parseInt(this.chatService.getChatId(), 10))}`,
         timestamp: new Date(Date.now() - i * 1000 * 60), // Each message is 1 minute apart
