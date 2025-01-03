@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
-import { ConversationService } from '../../services/conversation.service';
-
+import { WebSocketService } from '../../services/web-socket.service';
 
 @Component({
   selector: 'app-main',
@@ -11,6 +10,9 @@ import { ConversationService } from '../../services/conversation.service';
   styleUrl: './main.component.scss',
   providers: []
 })
-export class MainComponent {
-  conversationService: ConversationService = inject(ConversationService);
+export class MainComponent /*implements OnDestroy*/{
+  // websocketService: WebSocketService = inject(WebSocketService);
+  // ngOnDestroy(): void {
+  //   this.websocketService.disconnect();
+  // }
 }
