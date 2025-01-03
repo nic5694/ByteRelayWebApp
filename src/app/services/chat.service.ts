@@ -9,7 +9,6 @@ export class ChatService {
   constructor() { }
 
   updateChatID(chatID: string): void {
-    console.log(`Chat ID updated to ${chatID}`);
     this.chatId.set(chatID);
   }
 
