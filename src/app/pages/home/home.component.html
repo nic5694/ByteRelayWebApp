@@ -1,1 +1,13 @@
-<p>home works!</p>
+<div id="home" class="d-flex flex-row w-100 h-100">
+    <div id="chat-room-list" class="">
+        <button (click)="incrementChatID()">click</button>
+    </div>
+    <div id="chat-room" class="">
+        @if (currentOpenChatID != "0") {
+        <app-chat></app-chat>
+        }
+        @else {
+            <p>open a chat!</p>
+        }
+    </div>
+</div>
