@@ -16,7 +16,7 @@ export class WebSocketService {
     }
     // send a message 
     sendMessage(conversationId: string, userId: string, message: string, participants: string[]): void {
-        this.socket.emit('sendMessage', {conversationId, userId, message, participants});
+        this.socket.emit('sendMessage', {event: "sendMessage", data: {conversationId, userId, message, participants}});
     }
     // listen for incoming messages
     onReceiveMessage(): Observable<any> {
