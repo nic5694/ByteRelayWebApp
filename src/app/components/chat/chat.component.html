@@ -1,8 +1,8 @@
 <app-chat-room-header id="conversation-header"></app-chat-room-header>
 
 <div id="messages">
-  @for (message of messages(); track message.id) {
-    <app-message [contents]="message.contents" [isRecipient]="message.isRecipient"></app-message>
+  @for (message of messages(); track message.timestamp) {
+    <app-message [contents]="message.message" [userId]="message.userId"></app-message>
   }
 </div>
-<app-message-input></app-message-input>
+<app-message-input [conversationId]="conversationId"></app-message-input>

@@ -1,4 +1,4 @@
 <div class="message-box">
-    <textarea type="text" class="message-input" placeholder="Type message..."></textarea>
-    <button type="submit" class="message-submit">Send</button>
+    <input type="text" class="message-input" placeholder="Type message..." [(ngModel)]="message">
+    <button type="submit" class="message-submit" (click)="sendMessage()">Send</button>
   </div>

@@ -1,13 +1,15 @@
 <div id="home" class="d-flex flex-row w-100 h-100">
     <div id="chat-room-list" class="">
-        <button (click)="incrementChatID()">click</button>
+        <button (click)="switchChatuser1_user3()">chat user1_user2</button>
+        <button (click)="switchChatuser1_user2()">chat user1_user3</button>
     </div>
     <div id="chat-room" class="">
-        @if (currentOpenChatID != "0") {
-        <app-chat></app-chat>
-        }
-        @else {
-            <p>open a chat!</p>
+        <!-- TODO: add case for if conversations is empty -->
+        @for (convo of conversations(); track convo.id) {
+            @if (currentOpenChatID() == convo.id) {
+                <app-chat [conversationId]="convo.id"></app-chat> 
+            }
+
         }
     </div>
 </div>

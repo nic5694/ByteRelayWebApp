@@ -1,4 +1,4 @@
-import { Component, Input, booleanAttribute } from '@angular/core';
+import { Component, Input, booleanAttribute, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 export class MessageComponent {
   @Input() contents: string = '';
 
-  @Input({ transform: booleanAttribute }) isRecipient: boolean = false;
+  @Input() userId: string = '';
+
+  isRecipient = computed(() => this.userId === 'user1');
 
 }

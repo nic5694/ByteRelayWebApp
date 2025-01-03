@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { ChatComponent } from '../../components/chat/chat.component';
-import { ChatService } from '../../services/chat.service';
-
+import { ConversationService } from '../../services/conversation.service';
+import { Conversation } from '../../models/conversation';
 
 @Component({
   selector: 'app-home',
@@ -10,29 +10,28 @@ import { ChatService } from '../../services/chat.service';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-
-  chatService: ChatService = inject(ChatService);
   //remember to set back to default "0", which displays that there is no chat open
-  currentOpenChatID :string;
+  currentOpenChatID = signal('user1_user2');
+  conversationService: ConversationService = inject(ConversationService);
+  conversations = signal<Conversation[]>([]);
 
   constructor() {
-    this.currentOpenChatID = this.chatService.getChatId();
+    this.conversations.set(this.conversationService.getAllConversations());
   }
 
   //trigger when a chat is opened
   onChatOpened(chatID: string): void {
-    if (chatID === this.currentOpenChatID) {
+    if (chatID === this.currentOpenChatID()) {
       return;
     }
-    this.chatService.updateChatID(chatID);
+    this.currentOpenChatID.set(chatID);
   }
 
-  incrementChatID(): void{
-    const numberID = parseInt(this.currentOpenChatID, 10);
-    if (isNaN(numberID)) {
-      throw new Error('Invalid chat ID');
-    }
-    this.chatService.updateChatID((numberID + 1).toString());
-    this.currentOpenChatID = this.chatService.getChatId();
+  switchChatuser1_user2(): void {
+    this.currentOpenChatID.set('user1_user2');
+  }
+
+  switchChatuser1_user3(): void {
+    this.currentOpenChatID.set('user1_user3');
   }
 }

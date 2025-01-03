@@ -1,11 +1,11 @@
-import { Component, Input, booleanAttribute, computed, inject} from '@angular/core';
+import { Component, Input, computed, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Message } from '../../models/message';
 import { MessageComponent } from '../message/message.component';
 import { ChatRoomHeaderComponent } from '../chat-room-header/chat-room-header.component';
 import { MessageInputComponent } from '../message-input/message-input.component';
-import { ChatService } from '../../services/chat.service';
-
+import { WebSocketService } from '../../services/web-socket.service';
+import { ConversationService } from '../../services/conversation.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -14,28 +14,24 @@ import { ChatService } from '../../services/chat.service';
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
-export class ChatComponent {
-  chatService: ChatService = inject(ChatService);
-  messages = computed(() => this.generateMockMessages());
+export class ChatComponent implements OnInit, OnDestroy {
+  @Input() conversationId: string = '';
+  conversationService: ConversationService = inject(ConversationService);
+  messages = computed(() => this.conversationService.getConversationById(this.conversationId).messages);
+  
+  private messageSubscription: Subscription = new Subscription();
 
-  constructor() {
-    
-  }
+  constructor(private socketService: WebSocketService) { }
+  ngOnInit(): void {
+    this.socketService.joinConversation(this.conversationId);
 
-  generateMockMessages(): Array<Message> {
-    const mockMessages: Message[] = [];
-    
-    for (let i = 0; i < 10; i++) {
-      mockMessages.push({
-        contents: `This is mock message number ${i + 1 + (parseInt(this.chatService.getChatId(), 10))}`,
-        timestamp: new Date(Date.now() - i * 1000 * 60), // Each message is 1 minute apart
-        isRecipient: i % 2 === 0, // Alternate between recipient and sender
-        senderID: `user_${i % 3}`, // Cycles between 3 different sender IDs
-        id: `msg_${Math.random().toString(36).substring(2, 15)}` // Generate unique ID
+    this.messageSubscription = this.socketService
+      .onReceiveMessage()
+      .subscribe((data: any) => {
+        this.conversationService.receiveMessage(data);
       });
-    }
-    
-    return mockMessages;
   }
-
+  ngOnDestroy(): void {
+    this.messageSubscription.unsubscribe();
   }
+}
